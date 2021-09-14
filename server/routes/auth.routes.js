@@ -5,6 +5,8 @@ const config = require("config")
 const jwt = require("jsonwebtoken")
 const {check, validationResult} = require("express-validator")
 const authMiddleware = require("../middleware/auth.middleware")
+const fileService = require('../services/fileService')
+const File = require('../models/File')
 
 const router = new Router()
 
@@ -34,9 +36,10 @@ router.post("/registration",
       }
       const hashPassword = await bcrypt.hash(password, 8) // цифра степень хэширования
       const user = new User({email, password: hashPassword})
-
       // сохраняем пользователя
       await user.save()
+      // после сохр пользователя в базе, созд. для него отдельую папку с названием его id
+      await fileService.createDir(new File({user:user.id, name: ''}))
       return res.json({message: "User was created"})
 
     } catch (error) {
