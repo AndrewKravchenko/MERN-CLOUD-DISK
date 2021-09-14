@@ -1,4 +1,6 @@
 const fileService = require('../services/fileService')
+const config = require("config")
+const fs = require("fs")
 const User = require('../models/User')
 const File = require('../models/File')
 
@@ -9,7 +11,7 @@ class FileController {
       const {name, type, parent} = req.body
       const file = new File({name, type, parent, user: req.user.id})
       const parentFile = await File.findOne({_id: parent})
-      if(!parentFile) {
+      if (!parentFile) {
         file.path = name
         await fileService.createDir(file)
       } else {
@@ -35,6 +37,58 @@ class FileController {
       return res.status(500).json({message: "Can not get files"})
     }
   }
+
+  async uploadFile(req, res) {
+    try {
+      const file = req.files.file
+
+      // ищем родит. дерикторию куда будем сохр. файл
+      const parent = await File.findOne({user: req.user.id, _id: req.body.parent})
+      // ищем юзера для проверки, есть ли свободное место на диске
+      const user = await User.findOne({_id: req.user.id})
+
+      if (user.usedSpace + file.size > user.diskSpace) {
+        return res.status(400).json({message: 'There no space on the disk'})
+      }
+
+      user.usedSpace = user.usedSpace + file.size
+
+      let path;
+      if (parent) {
+        path = `${config.get('filePath')}//${user._id}//${parent.path}//${file.name}`
+      } else {
+        path = `${config.get('filePath')}//${user._id}//${file.name}`
+      }
+
+      // проверка существует ли файл по такому пути
+      if (fs.existsSync(path)) {
+        return res.status(400).json({message: 'File already exist'})
+      }
+      // с помощью функции mv у файла, перемещаем его по ранее созданному пути
+      file.mv(path)
+
+      // получаем тип файла
+      const type = file.name.split('.').pop()
+      // модель файла которую будем сохранять
+      const dbFile = new File({
+        name: file.name,
+        type,
+        size: file.size,
+        path: parent?.path,
+        parent: parent?._id,
+        user: user._id
+      })
+
+      await dbFile.save()
+      await user.save()
+
+      res.json(dbFile)
+    } catch (e) {
+      console.log(e)
+      return res.status(500).json({message: "Upload error"})
+    }
+  }
 }
+
 
 module.exports = new FileController()
