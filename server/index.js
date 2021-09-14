@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const config = require("config")
 const corsMiddleware = require("./middleware/cors.middleware")
 const authRouter = require("./routes/auth.routes")
-const fileRouter = require("./routes/auth.routes")
+const fileRouter = require("./routes/file.routes")
 const PORT = config.get("serverPort")
 
 const app = express()
