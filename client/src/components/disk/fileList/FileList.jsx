@@ -8,6 +8,10 @@ import './fileListAnimation.scss'
 export const FileList = () => {
   const files = useSelector(state => state.files.files)
 
+  if(files.length === 0){
+    return <div className='loader'>Files not found</div>
+  }
+
   return (
     <div className={cl.fileList}>
       <div className={cl.fileList_header}>

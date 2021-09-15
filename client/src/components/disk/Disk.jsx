@@ -6,17 +6,19 @@ import cl from './disk.module.scss'
 import {FileList} from "./fileList/FileList";
 import {Popup} from "./Popup";
 import {Uploader} from "./uploader/Uploader";
-
+import './loader.scss'
 
 export const Disk = () => {
   const dispatch = useDispatch()
   const currentDir = useSelector(state => state.files.currentDir)
   const dirStack = useSelector(state => state.files.dirStack)
+  const loader = useSelector(state => state.app.loader)
   const [dragEnter, setDragEnter] = useState(false)
+  const [sort, setSort] = useState('type')
 
   useEffect(() => {
-    dispatch(getFiles(currentDir))
-  }, [currentDir])
+    dispatch(getFiles(currentDir, sort))
+  }, [currentDir, sort])
 
   const showPopupHandler = () => {
     dispatch(setPopupDisplay('flex'))
@@ -52,8 +54,17 @@ export const Disk = () => {
     setDragEnter(false)
   }
 
+  if (loader) {
+    return (
+      <div className="loader">
+        <div className="lds-dual-ring"/>
+      </div>
+    )
+  }
+
   return (!dragEnter ?
-      <div className={cl.disk} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler} onDragOver={dragEnterHandler}>
+      <div className={cl.disk} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler}
+           onDragOver={dragEnterHandler}>
         <div className={cl.disk_btns}>
           <button className={cl.disk_back} onClick={backClickHandler}>Back</button>
           <button className={cl.disk_create} onClick={showPopupHandler}>Create folder</button>
@@ -62,6 +73,13 @@ export const Disk = () => {
             <input multiple={true} onChange={(event) => fileUploadHandler(event)} type="file" id="disk_uploadInput"
                    className={cl.disk_uploadInput}/>
           </div>
+          <select value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className={cl.disk_select}>
+            <option value="name">Name</option>
+            <option value="type">Type</option>
+            <option value="date">Date</option>
+          </select>
         </div>
         <FileList/>
         <Popup/>
