@@ -1,7 +1,6 @@
 const Router = require('express')
 const authMiddleware = require('../middleware/auth.middleware') // для индентификация юзера
 const fileController = require('../controllers/fileController')
-
 const router = new Router()
 
 

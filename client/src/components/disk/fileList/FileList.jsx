@@ -5,7 +5,10 @@ import {File} from "./file/File";
 
 
 export const FileList = () => {
-  const files = useSelector(state => state.files.files).map(file => <File key={file.id} file={file}/>)
+  const files = useSelector(state => state.files.files).map((file, fileKey) =>
+    <React.Fragment key={fileKey}>
+      <File key={file.id} file={file}/>
+    </React.Fragment>)
 
   return (
     <div className={cl.fileList}>

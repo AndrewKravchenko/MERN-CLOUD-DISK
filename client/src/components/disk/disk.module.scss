@@ -1,3 +1,5 @@
+@import "../../utils/colors.module";
+
 .disk {
   margin-top: 20px;
 
@@ -12,12 +14,24 @@
   &_create {
     margin-left: 10px;
   }
+
+  &_uploadInput {
+    display: none;
+  }
+
+  &_uploadLabel {
+    border: 2px dashed $font-color;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+
+  }
 }
 
 .popup {
   width: 100%;
   height: 100vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   right: 0;
   left: 0;
   top: 0;

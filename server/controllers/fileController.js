@@ -1,6 +1,6 @@
 const fileService = require('../services/fileService')
 const config = require("config")
-const fs = require("fs")
+const fs = require('fs')
 const User = require('../models/User')
 const File = require('../models/File')
 
@@ -66,7 +66,6 @@ class FileController {
       }
       // с помощью функции mv у файла, перемещаем его по ранее созданному пути
       file.mv(path)
-
       // получаем тип файла
       const type = file.name.split('.').pop()
       // модель файла которую будем сохранять
@@ -89,6 +88,5 @@ class FileController {
     }
   }
 }
-
 
 module.exports = new FileController()
