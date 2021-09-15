@@ -60,3 +60,37 @@ export function uploadFile(file, dirId) {
   }
 }
 
+export async function downloadFile(file) {
+  const response = await fetch(`http://localhost:5000/api/files/download?id=${file._id}`,{
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  // const response = await axios.get(`http://localhost:5000/api/files/download?id=${file._id}`, {
+  //   headers: {
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`
+  //   },
+  //   responseType: 'blob',
+  // })
+
+  if (response.status === 200) {
+    debugger
+    // подобный физическому файлу объект
+    const blob = await response.blob()
+    // const blob = response.data
+
+    // из blob создаем url
+    const downloadUrl = window.URL.createObjectURL(blob)
+    // создаем невидимую ссылку
+    const link = document.createElement('a')
+    // в невидимую ссылку в которой href мы указывваем url из blob
+    link.href = downloadUrl
+    // в свойстве download у ссылки мы указываем имя файла
+    link.download = file.name
+    // добавляем эту ссылку в документ
+    document.body.appendChild(link)
+    // теперь ссылка является частью документа и имеет все необходимые свойства
+    link.click()
+    link.remove()
+  }
+}
