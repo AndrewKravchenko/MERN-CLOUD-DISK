@@ -19,6 +19,21 @@ class FileService {
       }
     }))
   }
+
+  deleteFile(file) {
+    const path = this.getPath(file)
+    // в модуле fs файлы и папки отличаются и за их удаление отвечают разные функции
+    if (file.type === 'dir') {
+      fs.rmdirSync(path)
+    } else {
+      fs.unlinkSync(path)
+    }
+  }
+
+  getPath(file) {
+    // путь до папки (конфиг) + userId + путь относительно папки каждого пользователя
+    return config.get('filePath') + '//' + file.user + '//' + file.path
+  }
 }
 
 
