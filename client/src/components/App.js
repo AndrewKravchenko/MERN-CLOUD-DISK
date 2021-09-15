@@ -2,11 +2,12 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {auth} from "../actions/user";
+import "./app.module.scss"
 import {Login} from "./authorization/Login";
+import {Registration} from "./authorization/Registration";
 import {Disk} from "./disk/Disk";
 import {NavBar} from "./navbar/NavBar";
-import "./app.module.scss"
-import {Registration} from "./authorization/Registration";
+
 
 export function App() {
   const isAuth = useSelector(state => state.user.isAuth)

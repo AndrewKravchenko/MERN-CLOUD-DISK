@@ -1,6 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {pushToStack, setCurrentDir} from "../../../../reducers/fileReducer";
+import sizeFormat from "../../../../utils/sizeFormat";
 import cl from './file.module.scss'
 import dirLogo from '../../../../assets/img/dir.svg'
 import fileLogo from '../../../../assets/img/file.svg'
@@ -33,7 +34,7 @@ export const File = ({file}) => {
       <img src={file.type === 'dir' ? dirLogo : fileLogo} alt="" className={cl.file_img}/>
       <div className={cl.file_name}>{file.name}</div>
       <div className={cl.file_date}>{file.date.slice(0, 10)}</div>
-      <div className={cl.file_size}>{file.size}</div>
+      <div className={cl.file_size}>{sizeFormat(file.size)}</div>
       {file.type !== 'dir' && <button onClick={(e) => downloadClickHandler(e)} className={`${cl.file_btn} ${cl.file_download}`}>download</button>}
       <button onClick={(e) => deleteClickHandler(e)} className={`${cl.file_btn} ${cl.file_delete}`}>delete</button>
     </div>
