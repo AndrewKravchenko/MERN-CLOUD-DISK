@@ -5,6 +5,7 @@ import {setCurrentDir, setPopupDisplay} from "../../reducers/fileReducer";
 import cl from './disk.module.scss'
 import {FileList} from "./fileList/FileList";
 import {Popup} from "./Popup";
+import {Uploader} from "./uploader/Uploader";
 
 
 export const Disk = () => {
@@ -64,6 +65,7 @@ export const Disk = () => {
         </div>
         <FileList/>
         <Popup/>
+        <Uploader/>
       </div>
       :
       <div className={cl.dropArea} onDrop={dropHandler} onDragEnter={dragEnterHandler} onDragLeave={dragLeaveHandler}
