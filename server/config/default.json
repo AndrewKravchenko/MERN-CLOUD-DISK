@@ -2,5 +2,6 @@
   "serverPort" : 5000,
   "dbURL": "mongodb+srv://andrew:itra@cloud.z3y1c.mongodb.net/cloud?retryWrites=true&w=majority",
   "secretKey" : "mern-secret-key",
-  "filePath": "/home/ITRANSITION.CORP/a3.kravchenko/WebstormProjects/mern-cloud-disk/server/files"
+  "filePath": "/home/ITRANSITION.CORP/a3.kravchenko/WebstormProjects/mern-cloud-disk/server/files",
+  "staticPath": "/home/ITRANSITION.CORP/a3.kravchenko/WebstormProjects/mern-cloud-disk/server/static"
 }

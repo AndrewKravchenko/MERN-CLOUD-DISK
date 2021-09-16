@@ -7,6 +7,7 @@ import {Login} from "./authorization/Login";
 import {Registration} from "./authorization/Registration";
 import {Disk} from "./disk/Disk";
 import {NavBar} from "./navbar/NavBar";
+import {Profile} from "./profile/Profile";
 
 
 export function App() {
@@ -31,6 +32,7 @@ export function App() {
             :
             <Switch>
               <Route exact path="/" component={Disk}/>
+              <Route exact path="/profile" component={Profile}/>
               <Redirect to="/"/>
             </Switch>
           }

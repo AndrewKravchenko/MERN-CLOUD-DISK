@@ -4,7 +4,8 @@
 server/node_modules
 client/node_modules
 .idea
-
+server/files
+server/static
 /.pnp
 .pnp.js
 

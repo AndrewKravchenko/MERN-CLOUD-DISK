@@ -6,12 +6,15 @@ import Logo from "../../assets/img/navbar-logo.svg"
 import {showLoader} from "../../reducers/appReducer";
 import {logout} from "../../reducers/userReducer";
 import cl from "./navbar.module.scss"
-
+import avatarLogo from '../../assets/img/avatar.svg'
+import {API_URL} from "../../config";
 
 export const NavBar = () => {
   const dispatch = useDispatch()
   const isAuth = useSelector(state => state.user.isAuth)
   const currentDir = useSelector(state => state.files.currentDir)
+  const currentUser = useSelector(state => state.user.currentUser)
+  const avatar = currentUser.avatar ? `${API_URL + currentUser.avatar}` : avatarLogo
 
   const [searchName, setSearchName] = useState('')
   const [searchTimeout, setSearchTimeout] = useState(false)
@@ -50,6 +53,9 @@ export const NavBar = () => {
         {!isAuth && <div className={cl.navbar_login}><NavLink to="/login">Войти</NavLink></div>}
         {!isAuth && <div><NavLink to="/registration">Registration</NavLink></div>}
         {isAuth && <div className={cl.navbar_login} onClick={() => dispatch(logout())}>Exit</div>}
+        {isAuth && <NavLink to='/profile'>
+          <img className={cl.navbar_avatar} src={avatar} alt=""/>
+        </NavLink>}
       </div>
     </div>
   );

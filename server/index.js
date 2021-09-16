@@ -14,6 +14,7 @@ app.use(fileUpload({}))
 app.use(cors())
 // app.use(corsMiddleware)
 app.use(express.json()) // распарсить json
+app.use(express.static('static'))
 app.use("/api/auth", authRouter)
 app.use("/api/files", fileRouter)
 
